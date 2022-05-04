@@ -2,8 +2,6 @@ using LinearAlgebra
 using Printf
 
 const la = LinearAlgebra
-
-
 const MAX_ITER = 100
 
 function summation(a_i, x, i)
