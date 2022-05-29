@@ -8,7 +8,7 @@ let givens_matrix (i: int) (j: int) (A: Matrix<float>) =
     let mutable s = 0.0
     let mutable c = 0.0
 
-    if A[j, j] = 0.0 then
+    if A[j, j] <> 0.0 then
         let t = A[i, j] / A[j, j]
         let hyp = sqrt (t * t + 1.0)
         s <- t / hyp

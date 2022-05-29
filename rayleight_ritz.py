@@ -6,32 +6,28 @@ import numpy.linalg as la
 from copy import copy
 
 
-def gauss_seidel_tridiagonal(c, d, e, b, x0, MAX_ITER=1000, tol=1e-4):
+def lu_tridiagonal(c, d, e):
     n = len(d)
-    x = np.zeros(n)
-    k = 1
-    while k <= MAX_ITER:
-        # método de Gauss-Seidel tridiagonal
-        x[0] = (b[0] - e[0]*x0[1])/d[0]
-        for i in range(1, n - 1):
-            x[i] = (b[i] - c[i-1]*x[i-1] - e[i-1]*x0[i+1])/d[i]
-        x[-1] = (b[-1] - c[-1]*x[-2])/d[-1]
+    for k in range(1, n):
+        lam = c[k - 1] / d[k - 1]
+        d[k] = d[k] - lam * e[k - 1]
+        c[k - 1] = lam
+    return c, d, e
 
-        # el error relativo es el criterio de terminacion
-        if la.norm(x - x0, np.inf) < tol*la.norm(x0, np.inf):
-            print(k)
-            return x
 
-        # actualiza los datos para la siguiente iteracion
-        x0 = np.copy(x)
-        k += 1
-    else:
-        print("Too many iterations")
-
-# Step 2 phi_i(x)
+def lu_tridiagonal_solve(c, d, e, b):
+    c, d, e = lu_tridiagonal(c, d, e)
+    n = len(d)
+    for k in range(1, n):
+        b[k] = b[k] - c[k - 1] * b[k - 1]
+    b[n - 1] = b[n - 1] / d[n - 1]
+    for k in range(n - 2, -1, -1):
+        b[k] = (b[k] - e[k] * b[k + 1]) / d[k]
+    return b
 
 
 def phi_i(x, x_, i):
+    # Step 2 phi_i(x)
     if 0 <= x <= x_[i - 1]:
         return 0
     if x_[i - 1] < x <= x_[i]:
@@ -78,9 +74,7 @@ def piecewise_linear_rayleight_ritz(x_: np.ndarray, p, q, f):
     b_ = Q[5, 1:n + 1] + Q[6, 1:n + 1]
     # Step 6, 7, 8, 9, 10 solve a symmetric tridiagonal linear system
 
-    x0_ = np.zeros_like(b_)
-
-    coeff = gauss_seidel_tridiagonal(c_, d_, e_, b_, x0_)
+    coeff = lu_tridiagonal_solve(c_, d_, e_, b_)
     # Step 11 Stop
     print("The procedure is complete")
     return coeff
@@ -93,8 +87,8 @@ def phi(x, x_, c):
 # -d/dx(p(x)dy/dx) + q(x)y = f(x), for 0 <= x <= 1, y(0) = 0 and y(1) = 0
 def p(x): return 1
 def q(x): return np.pi**2
-def f(x): return 2*np.pi**2*np.sin(np.pi*x)
-def y(x): return np.sin(x*np.pi)
+def f(x): return 2 * np.pi**2 * np.sin(np.pi * x)
+def y(x): return np.sin(x * np.pi)
 
 
 x_ = np.linspace(0, 1, 11)  # equipartition

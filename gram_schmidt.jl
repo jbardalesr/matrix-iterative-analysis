@@ -3,6 +3,7 @@ const la = LinearAlgebra
 
 function modified_gram_schmidt(X::Matrix{Float64})
     # X is a nxr matrix
+    # QR decomposition of a matrix exists whenever the column vectors of X form a linearly independent set of vectors
     n, r = size(X)
     
     R = zeros(Float64, (r, r))

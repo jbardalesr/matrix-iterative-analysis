@@ -1,3 +1,4 @@
 *.ipynb
 .fake
 .vscode
+__pycache__

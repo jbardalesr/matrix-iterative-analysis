@@ -1,12 +1,10 @@
 using LinearAlgebra
-using Printf
-
 const la = LinearAlgebra
 const MAX_ITER = 100
 
 function summation(a_i, x, i)
     sum_i = 0.0
-    for j=1:size(x)[1]
+    for j=1:size(x, 1)
         if i != j
             sum_i += a_i[j]*x[j]
         end
@@ -14,10 +12,9 @@ function summation(a_i, x, i)
     return sum_i
 end
 
-function jacobi_method(A::Matrix{Float64}, b, x0, tol=1e-5)
+function jacobi_method(A:: Matrix{Float64}, b, x0, tol=0.0001)
     m, n = size(A)
     x = zeros(Float64, m)
-
     k = 1
     println("x[0] = $x0")
     while k < MAX_ITER
