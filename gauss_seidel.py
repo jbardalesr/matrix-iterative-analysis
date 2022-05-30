@@ -26,7 +26,7 @@ def gauss_seidel(A, b, x0, MAX_ITER=100, tol=1e-4):
         recolect_error.append(error_abs)
 
         # el error relativo es el criterio de terminacion
-        if error_abs < tol*la.norm(x0, np.inf):
+        if error_abs < tol * la.norm(x0, np.inf):
             break
 
         # actualiza los datos para la siguiente iteracion
@@ -53,7 +53,7 @@ def gauss_seidel_accel(A, b, x0, omega, MAX_ITER=100, tol=0.0003):
 
             z = (b[i] - s1 - s2) / A[i, i]
             # método de aceleracion
-            x[i] = omega*z + (1 - omega)*x0[i]
+            x[i] = omega * z + (1 - omega) * x0[i]
 
         error_abs = la.norm(x - x0, np.inf)
 
@@ -62,7 +62,7 @@ def gauss_seidel_accel(A, b, x0, omega, MAX_ITER=100, tol=0.0003):
         recolect_error.append(error_abs)
 
         # el error relativo es el criterio de terminacion
-        if error_abs < tol*la.norm(x0, np.inf):
+        if error_abs < tol * la.norm(x0, np.inf):
             break
 
         # actualiza los datos para la siguiente iteracion
@@ -73,7 +73,6 @@ def gauss_seidel_accel(A, b, x0, omega, MAX_ITER=100, tol=0.0003):
     return np.c_[recolect_data, recolect_error]
 
 
- 
 A = np.array([[4, -1, -6, 0],
               [0, 9, 4, -2],
               [-5, -4, 10, 8],
@@ -87,7 +86,7 @@ x_exact = np.array([3, -2, 2, 1.0])
 print("Gauss Seidel method")
 recolected_data = gauss_seidel_accel(A, b, x0, 0.871052, MAX_ITER=2000)
 ratio = np.zeros(len(recolected_data))
-ratio[1:] = recolected_data[1:, 4]/recolected_data[:-1, 4]
+ratio[1:] = recolected_data[1:, 4] / recolected_data[:-1, 4]
 
 recolected_data = np.c_[recolected_data, ratio]
 show_data = pd.DataFrame(data=recolected_data, columns=["x_1", "x_2", "x_3", "x_4", "||e||_inf", "Ratio"])
