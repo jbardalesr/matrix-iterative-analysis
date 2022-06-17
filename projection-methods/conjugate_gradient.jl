@@ -32,13 +32,19 @@ function conjugate_gradient(A:: Matrix{Float64}, b:: Vector{Float64}, x:: Vector
     end
 end
 
-A = [10 3 1;
-     2 -10 3;
-     1 3 10.]
+A = [4. -1 0 -1 0 0;
+     -1 4 -1 0 -1 0;
+     0 -1 4. 0 0 -1;
+     -1 0 0. 4 -1 0;
+     0 -1 0 -1 4 -1;
+     0 0 -1 0. -1 4]
 
-b = [14.0, -5, 14]
+b = [0, 5, 0, 6, -2, 6.]
 
-x0 = [0.0, 0.0, 0.0]
+x = zeros(size(b))
+
+# x_sol = [1, 2, 1, 2, 1, 2]
 
 println("Conjugate gradient")
-conjugate_gradient(A, b, x0)
+conjugate_gradient(A, b, x)
+

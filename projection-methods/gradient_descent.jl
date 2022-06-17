@@ -8,7 +8,7 @@ MAX_ITER = 50
 `A:: Matrix{Float64}` is a symmetric and positive definite matrix
 ....
 """
-function gradient_descent(A:: Matrix{Float64}, b:: Vector{Float64}, x:: Vector{Float64}, tol=1.0e-8)
+function gradient_descent(A:: Matrix{Float64}, b:: Vector{Float64}, x:: Vector{Float64}, tol=1.0e-6)
     r0 = b - A*x
     p = copy(r0)
     println("x[0] = $x")
@@ -29,13 +29,17 @@ function gradient_descent(A:: Matrix{Float64}, b:: Vector{Float64}, x:: Vector{F
     end 
 end
 
-A = [10 3 1;
-     2 -10 3;
-     1 3 10.]
+A = [4. -1 0 -1 0 0;
+     -1 4 -1 0 -1 0;
+     0 -1 4. 0 0 -1;
+     -1 0 0. 4 -1 0;
+     0 -1 0 -1 4 -1;
+     0 0 -1 0. -1 4]
 
-b = [14.0, -5, 14]
+b = [0, 5, 0, 6, -2, 6.]
 
-x0 = [0.0, 0.0, 0.0]
+x0 = zeros(size(b))
+
 
 println("Gradient descent")
 gradient_descent(A, b, x0)
