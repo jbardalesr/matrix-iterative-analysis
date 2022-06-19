@@ -1,7 +1,23 @@
+#!fsharp
+
 #r "nuget: MathNet.Numerics, 5.0.0"
 #r "nuget: MathNet.Numerics.FSharp, 5.0.0"
 
 open MathNet.Numerics.LinearAlgebra
+
+#!markdown
+
+### Jacobi
+
+#!markdown
+
+### Gauss-Seidel
+
+#!markdown
+
+### Givens method
+
+#!fsharp
 
 let givens_matrix (i: int) (j: int) (A: Matrix<float>) =
     let m = A.RowCount
@@ -25,6 +41,8 @@ let givens_matrix (i: int) (j: int) (A: Matrix<float>) =
     G[i, i] <- c
 
     G * A
+
+#!fsharp
 
 let A =
     matrix [ [ 1.0; 2.0; 1.5 ]
